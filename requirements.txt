@@ -1,0 +1,10 @@
+pandas
+geopy
+hdbscan
+scikit-learn
+numpy
+streamlit
+requests
+diskcache
+matplotlib
+openpyxl
