@@ -1,7 +1,7 @@
 import pandas as pd
 from geopy.geocoders import OpenCage
 from geopy.exc import GeocoderUnavailable, GeocoderTimedOut
-from sklearn.cluster import DBSCAN
+import hdbscan
 from sklearn.metrics import pairwise_distances
 import numpy as np
 import streamlit as st
@@ -133,14 +133,12 @@ def calculate_distances(df, centroids):
     logger.info("Odległości od centroidów zostały obliczone.")
     return df
 
-def cluster_data(df, eps):
+def cluster_data(df, min_cluster_size, min_samples):
     df = df.dropna(subset=['Lat', 'Lon'])
 
     coords = df[['Lat', 'Lon']].values
-    kms_per_radian = 6371.0088
-    epsilon = eps / kms_per_radian
-    dbscan = DBSCAN(eps=epsilon, min_samples=2, algorithm='ball_tree', metric='haversine')
-    df['Cluster'] = dbscan.fit_predict(np.radians(coords))
+    clusterer = hdbscan.HDBSCAN(min_cluster_size=min_cluster_size, min_samples=min_samples, metric='haversine')
+    df['Cluster'] = clusterer.fit_predict(np.radians(coords))
     centroids = calculate_centroids(df)
     df = df.join(centroids, on='Cluster')
     df = calculate_distances(df, centroids)
@@ -190,8 +188,9 @@ if uploaded_file is not None:
 
     df = st.session_state.df
     if df is not None:
-        eps = st.slider('Maksymalna odległość między lokalizacjami (w kilometrach)', min_value=10, max_value=1000, value=100, step=10)
-        df = cluster_data(df, eps)
+        min_cluster_size = st.slider('Minimalna liczba punktów w klastrze', min_value=2, max_value=100, value=5, step=1)
+        min_samples = st.slider('Minimalna liczba próbek', min_value=1, max_value=100, value=5, step=1)
+        df = cluster_data(df, min_cluster_size, min_samples)
 
         required_columns = ['Cluster', 'city', 'Lat', 'Lon', 'Odległość od Centroidu (km)', 'Centroid_Lat', 'Centroid_Lon', 'Source']
         if 'cntr' in df.columns:
