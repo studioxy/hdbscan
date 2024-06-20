@@ -1,7 +1,7 @@
 
 # GeoCluster: Geocoding and Geographical Data Clustering Application
 
-GeoCluster is a Python application built using the Streamlit library that enables geocoding of cities and clustering of geographical points using the HDBSCAN algorithm. The application is useful for analyzing and visualizing geographical data, allowing users to identify clusters of cities on a map.
+GeoCluster is a Python application built using the Streamlit library that enables geocoding of cities and clustering of geographical points using the HDBSCAN algorithm. The application is useful for analyzing and visualizing geographical data, allowing users to identify clusters of locations on a map.
 
 ## Features
 
