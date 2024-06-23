@@ -161,7 +161,7 @@ def plot_cluster_on_map(cluster, cluster_num):
     
     map_cluster = folium.Map(
         location=center,
-        zoom_start=5,  # Adjusted zoom level for scale
+        zoom_start=2,  # Adjusted zoom level for scale
         tiles=None
     )
     folium.TileLayer(
