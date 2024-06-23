@@ -158,22 +158,24 @@ def plot_cluster_on_map(cluster, cluster_num):
     map_cluster = folium.Map(
         location=[cluster['Lat'].mean(), cluster['Lon'].mean()],
         zoom_start=6,
-        tiles=None,
-        attr='CartoDB Positron'
+        tiles=None  # Use no default tiles
     )
-    folium.TileLayer('cartodb positron', name='Minimalist', control=False).add_to(map_cluster)
-
+    # Define custom style for the map
+    folium.TileLayer(
+        tiles='https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
+        attr='© OpenStreetMap contributors, © CartoDB',
+        name='CartoDB dark',
+        control=False
+    ).add_to(map_cluster)
     for idx, row in cluster.iterrows():
         folium.CircleMarker(
             location=[row['Lat'], row['Lon']],
             radius=5,
-            color='blue',
+            color='magenta',
             fill=True,
-            fill_color='blue',
-            fill_opacity=0.7,
+            fill_color='magenta',
             popup=row['city']
         ).add_to(map_cluster)
-
     return map_cluster
 
 def max_distance_in_cluster(cluster):
