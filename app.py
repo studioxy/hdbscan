@@ -9,7 +9,7 @@ import time
 import requests
 import diskcache as dc
 import logging
-import matplotlib.pyplot as plt
+import folium
 
 # Konfiguracja logowania
 logging.basicConfig(level=logging.INFO)
@@ -153,13 +153,11 @@ def validate_columns(df, required_columns):
         return False
     return True
 
-def plot_cluster(cluster, cluster_num):
-    fig, ax = plt.subplots()
-    ax.scatter(cluster['Lon'], cluster['Lat'], s=100, alpha=0.7)
-    ax.set_facecolor('none')
-    fig.patch.set_alpha(0.0)
-    ax.axis('off')
-    st.pyplot(fig)
+def plot_cluster_on_map(cluster, cluster_num):
+    map_cluster = folium.Map(location=[cluster['Lat'].mean(), cluster['Lon'].mean()], zoom_start=6)
+    for idx, row in cluster.iterrows():
+        folium.Marker([row['Lat'], row['Lon']], popup=row['city']).add_to(map_cluster)
+    return map_cluster
 
 def max_distance_in_cluster(cluster):
     if len(cluster) < 2:
@@ -237,7 +235,8 @@ if uploaded_file is not None:
                         st.write(f"Suma 'val' dla klastra {cluster_num}: {cluster_sum}")
 
                 with col2:
-                    plot_cluster(cluster, cluster_num)
+                    map_cluster = plot_cluster_on_map(cluster, cluster_num)
+                    st_folium(map_cluster, width=700, height=500)
 
                 # Add feedback on the shape of the cluster
                 st.write(f"Cluster {cluster_num} - Number of points: {len(cluster)}")
