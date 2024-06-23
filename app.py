@@ -155,9 +155,25 @@ def validate_columns(df, required_columns):
     return True
 
 def plot_cluster_on_map(cluster, cluster_num):
-    map_cluster = folium.Map(location=[cluster['Lat'].mean(), cluster['Lon'].mean()], zoom_start=6)
+    map_cluster = folium.Map(
+        location=[cluster['Lat'].mean(), cluster['Lon'].mean()],
+        zoom_start=6,
+        tiles=None,
+        attr='CartoDB Positron'
+    )
+    folium.TileLayer('cartodb positron', name='Minimalist', control=False).add_to(map_cluster)
+
     for idx, row in cluster.iterrows():
-        folium.Marker([row['Lat'], row['Lon']], popup=row['city']).add_to(map_cluster)
+        folium.CircleMarker(
+            location=[row['Lat'], row['Lon']],
+            radius=5,
+            color='blue',
+            fill=True,
+            fill_color='blue',
+            fill_opacity=0.7,
+            popup=row['city']
+        ).add_to(map_cluster)
+
     return map_cluster
 
 def max_distance_in_cluster(cluster):
