@@ -12,6 +12,9 @@ import logging
 import folium
 from streamlit_folium import st_folium
 
+# Ustawienie layoutu na szeroki
+st.set_page_config(layout="wide")
+
 # Konfiguracja logowania
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -201,9 +204,6 @@ def clear_cache():
 if st.button('Wyczyść cache'):
     clear_cache()
 
-# Ustawienie layoutu na szeroki
-st.set_page_config(layout="wide")
-
 # Załaduj dane
 uploaded_file = st.file_uploader("Wybierz plik")
 if uploaded_file is not None:
@@ -249,7 +249,7 @@ if uploaded_file is not None:
                 cluster = clusters[clusters['Cluster'] == cluster_num]
                 st.write(f"Miasta w klastrze {cluster_num}:")
 
-                col1, col2 = st.columns([2, 1])
+                col1, col2 = st.columns([3, 2])
                 
                 with col1:
                     cluster_columns = ['city', 'Lat', 'Lon', 'Odległość od Centroidu (km)', 'Centroid_Lat', 'Centroid_Lon', 'Source']
@@ -264,7 +264,7 @@ if uploaded_file is not None:
 
                 with col2:
                     map_cluster = plot_cluster_on_map(cluster, cluster_num)
-                    st_folium(map_cluster, width=900, height=700)
+                    st_folium(map_cluster, width=800, height=600)
 
                 # Add feedback on the shape of the cluster
                 st.write(f"Cluster {cluster_num} - Number of points: {len(cluster)}")
