@@ -172,7 +172,7 @@ def plot_cluster_on_map(cluster, cluster_num):
     for idx, row in cluster.iterrows():
         folium.CircleMarker(
             location=[row['Lat'], row['Lon']],
-            radius=2,
+            radius=5,
             color='#f5073f',  # Pastelowy malinowy kolor
             fill=True,
             fill_color='#f5073f',
@@ -200,6 +200,9 @@ def clear_cache():
 # Przycisk do wyczyszczenia pliku cache
 if st.button('Wyczyść cache'):
     clear_cache()
+
+# Ustawienie layoutu na szeroki
+st.set_page_config(layout="wide")
 
 # Załaduj dane
 uploaded_file = st.file_uploader("Wybierz plik")
@@ -261,7 +264,7 @@ if uploaded_file is not None:
 
                 with col2:
                     map_cluster = plot_cluster_on_map(cluster, cluster_num)
-                    st_folium(map_cluster, width=700, height=500)
+                    st_folium(map_cluster, width=900, height=700)
 
                 # Add feedback on the shape of the cluster
                 st.write(f"Cluster {cluster_num} - Number of points: {len(cluster)}")
