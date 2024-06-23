@@ -155,8 +155,12 @@ def validate_columns(df, required_columns):
     return True
 
 def plot_cluster_on_map(cluster, cluster_num):
+    # Get the first location in the cluster
+    first_location = cluster.iloc[0]
+    center = [first_location['Lat'], first_location['Lon']]
+    
     map_cluster = folium.Map(
-        location=[cluster['Lat'].mean(), cluster['Lon'].mean()],
+        location=center,
         zoom_start=6,
         tiles=None
     )
@@ -176,6 +180,10 @@ def plot_cluster_on_map(cluster, cluster_num):
             fill_color='#FF6F61',
             popup=row['city']
         ).add_to(map_cluster)
+    
+    # Center the map on the first location in the cluster
+    map_cluster.fit_bounds([[first_location['Lat'], first_location['Lon']], [first_location['Lat'], first_location['Lon']]])
+
     return map_cluster
 
 def max_distance_in_cluster(cluster):
