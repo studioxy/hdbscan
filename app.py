@@ -158,22 +158,22 @@ def plot_cluster_on_map(cluster, cluster_num):
     map_cluster = folium.Map(
         location=[cluster['Lat'].mean(), cluster['Lon'].mean()],
         zoom_start=6,
-        tiles=None  # Use no default tiles
+        tiles=None
     )
-    # Define custom style for the map
     folium.TileLayer(
-        tiles='https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
+        tiles='https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',
         attr='© OpenStreetMap contributors, © CartoDB',
-        name='CartoDB dark',
+        name='CartoDB positron',
         control=False
     ).add_to(map_cluster)
+
     for idx, row in cluster.iterrows():
         folium.CircleMarker(
             location=[row['Lat'], row['Lon']],
             radius=5,
-            color='magenta',
+            color='#ff69b4',  # Pastelowy malinowy kolor
             fill=True,
-            fill_color='magenta',
+            fill_color='#ff69b4',
             popup=row['city']
         ).add_to(map_cluster)
     return map_cluster
