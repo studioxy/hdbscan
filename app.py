@@ -161,7 +161,7 @@ def plot_cluster_on_map(cluster, cluster_num):
     
     map_cluster = folium.Map(
         location=center,
-        zoom_start=6,
+        zoom_start=9,  # Adjusted zoom level for scale
         tiles=None
     )
     folium.TileLayer(
@@ -174,10 +174,10 @@ def plot_cluster_on_map(cluster, cluster_num):
     for idx, row in cluster.iterrows():
         folium.CircleMarker(
             location=[row['Lat'], row['Lon']],
-            radius=2,
-            color='#f5073f',  # Pastelowy malinowy kolor
+            radius=5,
+            color='#FF6F61',  # Pastelowy malinowy kolor
             fill=True,
-            fill_color='#f5073f',
+            fill_color='#FF6F61',
             popup=row['city']
         ).add_to(map_cluster)
     
