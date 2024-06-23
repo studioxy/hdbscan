@@ -170,7 +170,7 @@ def plot_cluster_on_map(cluster, cluster_num):
     ).add_to(map_cluster)
 
     for idx, row in cluster.iterrows():
-        folium.Circle(
+        folium.CircleMarker(
             location=[row['Lat'], row['Lon']],
             radius=2,
             color='#f5073f',  # Pastelowy malinowy kolor
