@@ -10,6 +10,7 @@ import requests
 import diskcache as dc
 import logging
 import folium
+from streamlit_folium import st_folium
 
 # Konfiguracja logowania
 logging.basicConfig(level=logging.INFO)
