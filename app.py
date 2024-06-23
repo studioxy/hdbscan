@@ -155,13 +155,11 @@ def validate_columns(df, required_columns):
     return True
 
 def plot_cluster_on_map(cluster, cluster_num):
-    # Get the first location in the cluster
-    first_location = cluster.iloc[0]
-    center = [first_location['Lat'], first_location['Lon']]
+    # Get the bounds of all points in the cluster
+    bounds = [[cluster['Lat'].min(), cluster['Lon'].min()],
+              [cluster['Lat'].max(), cluster['Lon'].max()]]
     
     map_cluster = folium.Map(
-        location=center,
-        zoom_start=2,  # Adjusted zoom level for scale
         tiles=None
     )
     folium.TileLayer(
@@ -174,15 +172,15 @@ def plot_cluster_on_map(cluster, cluster_num):
     for idx, row in cluster.iterrows():
         folium.CircleMarker(
             location=[row['Lat'], row['Lon']],
-            radius=3,
-            color='#f5073f',  # Pastelowy malinowy kolor
+            radius=5,
+            color='#FF6F61',  # Pastelowy malinowy kolor
             fill=True,
-            fill_color='#f5073f',
+            fill_color='#FF6F61',
             popup=row['city']
         ).add_to(map_cluster)
     
-    # Center the map on the first location in the cluster
-    map_cluster.fit_bounds([[first_location['Lat'], first_location['Lon']], [first_location['Lat'], first_location['Lon']]])
+    # Fit the map to the bounds of the cluster
+    map_cluster.fit_bounds(bounds)
 
     return map_cluster
 
