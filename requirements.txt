@@ -6,6 +6,8 @@ numpy
 streamlit
 requests
 diskcache
+logging
 matplotlib
-openpyxl
 folium
+openpyxl
+streamlit-folium
