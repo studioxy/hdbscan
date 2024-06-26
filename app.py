@@ -176,9 +176,9 @@ def plot_cluster_on_map(cluster, cluster_num):
         folium.CircleMarker(
             location=[row['Lat'], row['Lon']],
             radius=5,
-            color='#712D5E',  # Pastelowy malinowy kolor
+            color='#DD4F56',  # Pastelowy malinowy kolor
             fill=True,
-            fill_color='#712D5E',
+            fill_color='#DD4F56',
             popup=row['city']
         ).add_to(map_cluster)
     
