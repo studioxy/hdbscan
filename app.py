@@ -19,7 +19,7 @@ st.set_page_config(layout="wide")
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-API_KEY = '8b8372e874b5486cbf75316d0cacab81'
+API_KEY = '464c88209c08491d9d17db6d27eb7b99'
 CACHE_DIR = 'geocode_cache'
 
 geolocator = OpenCage(api_key=API_KEY)
